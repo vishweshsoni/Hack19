@@ -90,30 +90,23 @@ class _SignUpBottomState extends State<SignUpBottom> {
   TextEditingController teEmail = new TextEditingController();
   TextEditingController tePassword = new TextEditingController();
 
+  static final CREATE_POST_URL ='https://hackflutter.herokuapp.com/signup';
+  Future<String> _signup(String url,{Map body}) async{
+    return http.post(url,body: body).then((http.Response response){
+      final int statuscode  =  response.statusCode;
+      Map res = json.decode(response.body);
+      var ans= res["error"];
+      print(ans);
+      if(ans=="false"){
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => MainActivity()));
+      }
+      else if(statuscode<200 || statuscode>400 || json==null){
+        throw new Exception("Error while fetching data");
+      }
+    });
 
-  Future<String> _signup(String name,String email, String pass) async{
-    Dio dio = new Dio();
-    FormData formData = new FormData.from(
-        {
-          "Name":name,
-          "Email":email,
-          "Password":pass
-        });
 
-    final response =await dio.post("https://hackflutter.herokuapp.com/signup",data:formData);
-    String ans= response.toString();
-    print(ans);
-
-    var responseJson = jsonDecode(ans);
-    var result = responseJson["error"];
-
-    if (result == "false") {
-
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => MainActivity()));
-    }
-
-    return result.toString();
 
   }
 
@@ -197,8 +190,10 @@ class _SignUpBottomState extends State<SignUpBottom> {
                     fontWeight: FontWeight.w700
                   ),
                   ),
-                  onPressed: (){
-                    _signup(teName.text, teEmail.text, tePassword.text);
+                  onPressed: ()async{
+
+                    await _signup(CREATE_POST_URL,body:{'Name':teName.text,'Email':teEmail.text, 'Password':tePassword.text});
+
                   },
                   splashColor: Colors.blueGrey[800],
                   color: const Color(0xff75a3a3),
