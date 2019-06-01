@@ -3,6 +3,9 @@ import 'package:resume_builder/CustomShapeClipper.dart';
 import 'package:auro_shadow_text/auro_shadow_text.dart';
 import 'mainActivity.dart';
 import 'package:resume_builder/SizeConfig.dart';
+import 'package:http/http.dart' as http;
+import 'package:dio/dio.dart';
+import 'dart:convert';
 
 
 class SignUpPage extends StatefulWidget {
@@ -88,6 +91,32 @@ class _SignUpBottomState extends State<SignUpBottom> {
   TextEditingController tePassword = new TextEditingController();
 
 
+  Future<String> _signup(String name,String email, String pass) async{
+    Dio dio = new Dio();
+    FormData formData = new FormData.from(
+        {
+          "Name":name,
+          "Email":email,
+          "Password":pass
+        });
+
+    final response =await dio.post("https://hackflutter.herokuapp.com/signup",data:formData);
+    String ans= response.toString();
+    print(ans);
+
+    var responseJson = jsonDecode(ans);
+    var result = responseJson["error"];
+
+    if (result == "false") {
+
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => MainActivity()));
+    }
+
+    return result.toString();
+
+  }
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -168,7 +197,9 @@ class _SignUpBottomState extends State<SignUpBottom> {
                     fontWeight: FontWeight.w700
                   ),
                   ),
-                  onPressed: ()=>Navigator.push(context, MaterialPageRoute(builder: (context)=>MainActivity())),
+                  onPressed: (){
+                    _signup(teName.text, teEmail.text, tePassword.text);
+                  },
                   splashColor: Colors.blueGrey[800],
                   color: const Color(0xff75a3a3),
                   shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0))

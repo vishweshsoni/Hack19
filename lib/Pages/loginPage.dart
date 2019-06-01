@@ -1,10 +1,18 @@
+
+
 import 'package:flutter/material.dart';
 import 'package:resume_builder/CustomShapeClipper.dart';
 import 'package:auro_shadow_text/auro_shadow_text.dart';
 import 'mainActivity.dart';
 import 'package:resume_builder/SizeConfig.dart';
+import 'signUpPage.dart';
+import 'package:http/http.dart' as http;
+import 'package:dio/dio.dart';
+import 'dart:convert';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:progress_dialog/progress_dialog.dart';
 
-
+ProgressDialog pr;
 class LoginPage extends StatefulWidget {
   @override
   _LoginPageState createState() => _LoginPageState();
@@ -14,6 +22,9 @@ Color firstColor = Color(0xff75a3a3);
 Color secondColor = Color(0xff3d5c5c);
 
 class _LoginPageState extends State<LoginPage> {
+
+
+
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
@@ -87,9 +98,38 @@ class _LoginBottomState extends State<LoginBottom> {
   TextEditingController teEmail = new TextEditingController();
   TextEditingController tePassword = new TextEditingController();
 
+  var percentage = 0.0;
+
+  Future<String> _signin(String email, String pass,) async{
+    Dio dio = new Dio();
+    FormData formData = new FormData.from(
+        {
+          "user_email":email,
+          "user_password":pass
+        });
+
+    final response =await dio.post("http://hackflutter.herokuapp.com/signin",data:formData);
+    String ans= response.toString();
+    print(ans);
+
+    var responseJson = jsonDecode(ans);
+    var result = responseJson["error"];
+
+    if (result == "false") {
+
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => MainActivity()));
+    }
+
+    return result.toString();
+
+  }
 
   @override
   Widget build(BuildContext context) {
+
+    pr = new ProgressDialog(context, ProgressDialogType.Normal);
+    pr.setMessage('Login...');
     return SingleChildScrollView(
       child: Container(
         padding: EdgeInsets.all(30.0),
@@ -152,12 +192,52 @@ class _LoginBottomState extends State<LoginBottom> {
                         fontWeight: FontWeight.w700
                     ),
                   ),
-                  onPressed: ()=>Navigator.push(context, MaterialPageRoute(builder: (context)=>MainActivity())),
+                  onPressed: ()
+                  {
+                    pr.show();
+                    Future.delayed(Duration(seconds: 2)).then((onValue)
+                    {
+                      percentage = percentage + 30.0;
+                      print(percentage);
+                      pr.update(progress: percentage, message: "Please wait...");
+
+                      Future.delayed(Duration(seconds: 2)).then((value)
+                      {
+                        percentage = percentage + 30.0;
+                        pr.update(progress: percentage,message: "Please wait...");
+
+                          Future.delayed(Duration(seconds: 3)).then((value)
+                          {
+                            pr.hide();
+                            _signin(teEmail.text, tePassword.text);
+                            percentage = 0.0;
+                          });
+                      });
+                    });
+                  },
+
                   splashColor: Colors.blueGrey[800],
                   color: const Color(0xff75a3a3),
                   shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0))
               ),
-            )
+            ),
+            SizedBox(
+              height: 20.0,
+            ),
+
+           FlatButton(
+
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>SignUpPage()));
+              },
+              child: Text(
+                  "SignUp Here",
+                  style: TextStyle(
+                      fontSize: 20.0,
+                      fontWeight: FontWeight.w700,
+                      color: const Color(0xff75a3a3))
+              ),
+            ),
           ],
         ),
       ),
