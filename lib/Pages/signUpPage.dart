@@ -3,6 +3,9 @@ import 'package:resume_builder/CustomShapeClipper.dart';
 import 'package:auro_shadow_text/auro_shadow_text.dart';
 import 'mainActivity.dart';
 import 'package:resume_builder/SizeConfig.dart';
+import 'package:http/http.dart' as http;
+import 'package:dio/dio.dart';
+import 'dart:convert';
 
 
 class SignUpPage extends StatefulWidget {
@@ -87,6 +90,25 @@ class _SignUpBottomState extends State<SignUpBottom> {
   TextEditingController teEmail = new TextEditingController();
   TextEditingController tePassword = new TextEditingController();
 
+  static final CREATE_POST_URL ='https://hackflutter.herokuapp.com/signup';
+  Future<String> _signup(String url,{Map body}) async{
+    return http.post(url,body: body).then((http.Response response){
+      final int statuscode  =  response.statusCode;
+      Map res = json.decode(response.body);
+      var ans= res["error"];
+      print(ans);
+      if(ans=="false"){
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => MainActivity()));
+      }
+      else if(statuscode<200 || statuscode>400 || json==null){
+        throw new Exception("Error while fetching data");
+      }
+    });
+
+
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -168,7 +190,11 @@ class _SignUpBottomState extends State<SignUpBottom> {
                     fontWeight: FontWeight.w700
                   ),
                   ),
-                  onPressed: ()=>Navigator.push(context, MaterialPageRoute(builder: (context)=>MainActivity())),
+                  onPressed: ()async{
+
+                    await _signup(CREATE_POST_URL,body:{'Name':teName.text,'Email':teEmail.text, 'Password':tePassword.text});
+
+                  },
                   splashColor: Colors.blueGrey[800],
                   color: const Color(0xff75a3a3),
                   shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0))
