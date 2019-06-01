@@ -5,15 +5,15 @@ import 'mainActivity.dart';
 import 'package:resume_builder/SizeConfig.dart';
 
 
-class SignUpPage extends StatefulWidget {
+class LoginPage extends StatefulWidget {
   @override
-  _SignUpPageState createState() => _SignUpPageState();
+  _LoginPageState createState() => _LoginPageState();
 }
 
 Color firstColor = Color(0xff75a3a3);
 Color secondColor = Color(0xff3d5c5c);
 
-class _SignUpPageState extends State<SignUpPage> {
+class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
@@ -21,9 +21,9 @@ class _SignUpPageState extends State<SignUpPage> {
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
-              SignUpTop(),
-              SizedBox(height: SizeConfig.safeBlockVertical*10,),
-              SignUpBottom()
+            LoginTop(),
+            SizedBox(height: SizeConfig.safeBlockVertical*10,),
+            LoginBottom()
           ],
         ),
       ),
@@ -31,12 +31,12 @@ class _SignUpPageState extends State<SignUpPage> {
   }
 }
 
-class SignUpTop extends StatefulWidget {
+class LoginTop extends StatefulWidget {
   @override
-  _SignUpTopState createState() => _SignUpTopState();
+  _LoginTopState createState() => _LoginTopState();
 }
 
-class _SignUpTopState extends State<SignUpTop> {
+class _LoginTopState extends State<LoginTop> {
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -47,12 +47,12 @@ class _SignUpTopState extends State<SignUpTop> {
             child: Column(
               children: <Widget>[
                 SizedBox(height: 80.0,width: MediaQuery.of(context).size.width,),
-                ShadowText("Sign Up Here",
-                style: TextStyle(
-                  fontSize: 50.0,
-                  color: Colors.white,
-                  fontWeight: FontWeight.w900
-                ),
+                ShadowText("Login Here",
+                  style: TextStyle(
+                      fontSize: 50.0,
+                      color: Colors.white,
+                      fontWeight: FontWeight.w900
+                  ),
                   shadowTop: 3.5,
                   shadowLeft: 3.5,
                   opacityStyle: Colors.grey.withOpacity(1.0),
@@ -64,10 +64,10 @@ class _SignUpTopState extends State<SignUpTop> {
               ],
             ),
             decoration: BoxDecoration(
-              gradient: LinearGradient(colors: [
-                firstColor,
-                secondColor
-              ])
+                gradient: LinearGradient(colors: [
+                  firstColor,
+                  secondColor
+                ])
 
             ),),
         )
@@ -76,14 +76,14 @@ class _SignUpTopState extends State<SignUpTop> {
   }
 }
 
-class SignUpBottom extends StatefulWidget {
+class LoginBottom extends StatefulWidget {
   @override
-  _SignUpBottomState createState() => _SignUpBottomState();
+  _LoginBottomState createState() => _LoginBottomState();
 }
 
-class _SignUpBottomState extends State<SignUpBottom> {
+class _LoginBottomState extends State<LoginBottom> {
 
-  TextEditingController teName =new TextEditingController();
+
   TextEditingController teEmail = new TextEditingController();
   TextEditingController tePassword = new TextEditingController();
 
@@ -95,23 +95,7 @@ class _SignUpBottomState extends State<SignUpBottom> {
         padding: EdgeInsets.all(30.0),
         child: Column(
           children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: TextField(
-                controller: teName,
-                decoration: InputDecoration(
-                  hintText: "Enter Your Name",
-                  icon: Icon(Icons.person),
-                  labelStyle: TextStyle(
-                    fontSize: 20.0
-                  )
-                ),
-                style: TextStyle(
-                    fontSize: 20.0
-                ),
-                autofocus: false,
-              ),
-            ),
+
             SizedBox(
               height: 20.0,
             ),
@@ -127,7 +111,7 @@ class _SignUpBottomState extends State<SignUpBottom> {
                     )
                 ),
                 style: TextStyle(
-                  fontSize: 20.0
+                    fontSize: 20.0
                 ),
                 autofocus: false,
               ),
@@ -161,12 +145,12 @@ class _SignUpBottomState extends State<SignUpBottom> {
               height: 50.0,
               width: 250.0,
               child: new RaisedButton(
-                  child: new Text("Sign Up",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 30.0,
-                    fontWeight: FontWeight.w700
-                  ),
+                  child: new Text("Login",
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 30.0,
+                        fontWeight: FontWeight.w700
+                    ),
                   ),
                   onPressed: ()=>Navigator.push(context, MaterialPageRoute(builder: (context)=>MainActivity())),
                   splashColor: Colors.blueGrey[800],
