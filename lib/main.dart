@@ -47,6 +47,14 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   List<String> widgetList = ['Personal Information', 'Education','Skills', 'Language and Technologies', 'Projects', 'Position of Responsibility', 'Awards and achievements', 'Hobbies'];
 
+
+  _changeIndex(value){
+        setState(() {
+
+        });
+        print(value);
+  }
+
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -73,30 +81,33 @@ class _MyHomePageState extends State<MyHomePage> {
           shrinkWrap: true,
           scrollDirection: Axis.vertical,
           children: widgetList.map((String value) {
-            return new Container(
-              decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(25.0),
-                          topRight: Radius.circular(25.0),
-                          bottomLeft: Radius.circular(25.0),
-                          bottomRight: Radius.circular(25.0)),
-                    ),
-              // color: Colors.green,
-              margin: new EdgeInsets.all(8.0),
-              child: Column(
-                children: <Widget>[
-                   InkWell(  
-                        child: new Text(
-                          value,
-                          textAlign: TextAlign.center,
-                          style: new TextStyle(
-                              fontSize: 20.0,
-                              color: Color(0xff3d5c5c),
+            return GestureDetector(
+                onTap: () => _changeIndex(value),
+              child: new Container(
+                decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(25.0),
+                            topRight: Radius.circular(25.0),
+                            bottomLeft: Radius.circular(25.0),
+                            bottomRight: Radius.circular(25.0)),
+                      ),
+                // color: Colors.green,
+                margin: new EdgeInsets.all(8.0),
+                child: Column(
+                  children: <Widget>[
+                     InkWell(
+                          child: new Text(
+                            value,
+                            textAlign: TextAlign.center,
+                            style: new TextStyle(
+                                fontSize: 20.0,
+                                color: Color(0xff3d5c5c),
+                              ),
                             ),
                           ),
-                        ),
-                ],
+                  ],
+                ),
               ),
             );
           }).toList(),
