@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:resume_builder/CustomShapeClipper.dart';
 import 'package:auro_shadow_text/auro_shadow_text.dart';
@@ -206,4 +207,3 @@ class _SignUpBottomState extends State<SignUpBottom> {
     );
   }
 }
-
