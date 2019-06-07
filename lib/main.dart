@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'Pages/loginPage.dart';
+import 'Pages/awards.dart';
+import 'Pages/interests.dart';
+import 'Pages/internships.dart';
+import 'Pages/personalDetails.dart';
+import 'Pages/skills.dart';
 // import 'package:learning_app/pages/colorspage.dart';
-import 'package:flutter_staggered_grid_view/src/widgets/staggered_tile.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+//import 'package:flutter_staggered_grid_view/src/widgets/staggered_tile.dart';
+//import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 // import 'package:learning_app/pages/player_area.dart';
 
 void main() {
@@ -29,7 +35,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'ResumeBuilder',
       debugShowCheckedModeBanner: false,
-      home: MyHomePage(title: 'Resume Builder'),
+      home: LoginPage(),
 //    home:
     );
   }
@@ -52,7 +58,36 @@ class _MyHomePageState extends State<MyHomePage> {
         setState(() {
 
         });
-        print(value);
+        if(value=="Personal Information"){
+          Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => PersonalDetails()));
+        }
+        else if(value=="Education"){
+          Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => SkillDetails()));
+        }
+        else if(value=="Skills"){
+          Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => SkillDetails()));
+        }
+        else if(value=="Language and Technologies"){
+          Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => InternshipDetails()));
+        }
+        else if(value=="Awards and achievements"){
+          Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => Awards()));
+        }
+        else if(value=="Hobbies"){
+          Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => Interests()));
+        }
   }
 
   @override
@@ -67,13 +102,14 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: new AppBar(
         title: new Text(widget.title,
         style: TextStyle(
-            color: Colors.white,
+            color: Colors.black,
         ),
       ),
-      backgroundColor: const Color(0xff3d5c5c),
+
+      backgroundColor: Colors.white,
       ),
       body: new Container(
-        color: const Color(0xff75a3a3),
+        color: Colors.white,
         child: new GridView.count(
           crossAxisCount: 2,
           childAspectRatio: (itemWidth / itemHeight),
@@ -85,7 +121,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 onTap: () => _changeIndex(value),
               child: new Container(
                 decoration: BoxDecoration(
-                        color: Colors.white,
+                        color: Colors.grey.shade200,
                         borderRadius: BorderRadius.only(
                             topLeft: Radius.circular(25.0),
                             topRight: Radius.circular(25.0),
@@ -96,13 +132,16 @@ class _MyHomePageState extends State<MyHomePage> {
                 margin: new EdgeInsets.all(8.0),
                 child: Column(
                   children: <Widget>[
+                      SizedBox(
+                        height: 60.0,
+                      ),
                      InkWell(
-                          child: new Text(
+                          child: Text(
                             value,
                             textAlign: TextAlign.center,
                             style: new TextStyle(
                                 fontSize: 20.0,
-                                color: Color(0xff3d5c5c),
+                                color: Colors.green,
                               ),
                             ),
                           ),
